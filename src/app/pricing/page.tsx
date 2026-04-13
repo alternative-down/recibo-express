@@ -1,7 +1,15 @@
 import Link from "next/link";
 import { PLANS } from "@/lib/plans";
 
-export const metadata = { title: "Preços - Recibo Express" };
+export const metadata = {
+  title: "Preços - Recibo Express",
+  description: "Planos simples para emitir recibos profissionais. Grátis até 3/mês, Pro R$ 9,90/mês ilimitado.",
+  openGraph: {
+    title: "Preços - Recibo Express",
+    description: "Planos simples para emitir recibos profissionais.",
+    type: "website",
+  },
+};
 
 export default function PricingPage() {
   return (
@@ -33,6 +41,7 @@ export default function PricingPage() {
               plan.id === "free"
                 ? "/signup"
                 : "/checkout?plan=pro";
+
             return (
               <div
                 key={plan.id}
@@ -47,6 +56,7 @@ export default function PricingPage() {
                     Recomendado
                   </span>
                 )}
+
                 <h2 className={`text-xl font-bold mt-1 mb-1 ${plan.recommended ? "text-white" : "text-slate-900"}`}>
                   {plan.name}
                 </h2>
@@ -55,6 +65,7 @@ export default function PricingPage() {
                     ? "Para quem precisa de recibos pontuais."
                     : "Para quem emite recibos com frequência."}
                 </p>
+
                 <div className="mb-2">
                   <span className={`text-4xl font-bold ${plan.recommended ? "text-white" : "text-slate-900"}`}>
                     {plan.price === 0 ? "Grátis" : `R$ ${plan.price}`}
@@ -63,11 +74,13 @@ export default function PricingPage() {
                     <span className={`text-sm ${plan.recommended ? "text-green-100" : "text-slate-500"}`}>/mês</span>
                   )}
                 </div>
+
                 <p className={`text-sm mb-6 ${plan.recommended ? "text-green-100" : "text-slate-500"}`}>
                   {plan.receiptsPerMonth === Infinity
                     ? "Recibos ilimitados"
-                    : `${plan.receiptsPerMonth} recibo/mês`}
+                    : `Até ${plan.receiptsPerMonth} recibos/mês`}
                 </p>
+
                 <ul className="space-y-2 mb-8 flex-1">
                   {plan.features.map((f) => (
                     <li
@@ -78,6 +91,7 @@ export default function PricingPage() {
                     </li>
                   ))}
                 </ul>
+
                 <Link
                   href={ctaHref}
                   className={
@@ -86,12 +100,13 @@ export default function PricingPage() {
                       : "block text-center py-3 rounded-xl font-semibold transition bg-green-600 text-white hover:opacity-90"
                   }
                 >
-                  {plan.price === 0 ? "Começar grátis →" : "Assinar Pro →"}
+                  {plan.price === 0 ? "Começar grátis →" : "Assinar →"}
                 </Link>
               </div>
             );
           })}
         </div>
+
         <p className="text-center text-slate-500 text-sm mt-8">
           Cancele quando quiser. Sem taxa de cancelamento.
         </p>
