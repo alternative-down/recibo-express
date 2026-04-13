@@ -27,17 +27,20 @@ export default function PricingPage() {
           <p className="text-xl text-slate-600">Cancele quando quiser. Sem taxa de cancelamento.</p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
           {PLANS.map((plan) => {
-            const ctaHref = plan.id === "free" ? "/signup" : "/checkout?plan=pro";
+            const ctaHref =
+              plan.id === "free"
+                ? "/signup"
+                : "/checkout?plan=pro";
             return (
               <div
                 key={plan.id}
-                className={`rounded-2xl p-8 flex flex-col ${
+                className={
                   plan.recommended
-                    ? "bg-gradient-to-br from-green-600 to-emerald-500 text-white shadow-lg"
-                    : "bg-white border border-green-100 shadow-sm"
-                }`}
+                    ? "rounded-2xl p-8 flex flex-col bg-gradient-to-br from-green-600 to-emerald-500 text-white shadow-lg"
+                    : "rounded-2xl p-8 flex flex-col bg-white border border-green-100 shadow-sm"
+                }
               >
                 {plan.recommended && (
                   <span className="text-xs font-bold text-green-100 bg-white/20 px-3 py-1 rounded-full w-fit mb-3">
@@ -50,7 +53,7 @@ export default function PricingPage() {
                 <p className={`text-sm mb-4 ${plan.recommended ? "text-green-100" : "text-slate-500"}`}>
                   {plan.id === "free"
                     ? "Para quem precisa de recibos pontuais."
-                    : "Para profissionais que emitem recibos com frequência."}
+                    : "Para quem emite recibos com frequência."}
                 </p>
                 <div className="mb-2">
                   <span className={`text-4xl font-bold ${plan.recommended ? "text-white" : "text-slate-900"}`}>
@@ -77,11 +80,11 @@ export default function PricingPage() {
                 </ul>
                 <Link
                   href={ctaHref}
-                  className={`block text-center py-3 rounded-xl font-semibold transition ${
+                  className={
                     plan.recommended
-                      ? "bg-white text-green-600 hover:opacity-90"
-                      : "bg-green-600 text-white hover:opacity-90"
-                  }`}
+                      ? "block text-center py-3 rounded-xl font-semibold transition bg-white text-green-600 hover:opacity-90"
+                      : "block text-center py-3 rounded-xl font-semibold transition bg-green-600 text-white hover:opacity-90"
+                  }
                 >
                   {plan.price === 0 ? "Começar grátis →" : "Assinar Pro →"}
                 </Link>
