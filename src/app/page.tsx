@@ -15,9 +15,8 @@ export default function HomePage() {
             <Link href="#como-funciona" className="text-slate-600 hover:text-green-600 text-sm font-medium">Como funciona</Link>
             <Link href="#modelos" className="text-slate-600 hover:text-green-600 text-sm font-medium">Modelos</Link>
             <Link href="#pricing" className="text-slate-600 hover:text-green-600 text-sm font-medium">Preços</Link>
-            <Link href="/app" className="text-slate-600 hover:text-green-600 text-sm font-medium">Entrar</Link>
-            <Link href="/app" className="bg-gradient-to-r from-green-600 to-emerald-500 text-white font-semibold px-4 py-2 rounded-lg hover:opacity-90 text-sm">
-              Emitir recibo →
+            <Link href="/login" className="text-slate-600 hover:text-green-600 text-sm font-medium">Entrar</Link>
+            <Link href="/signup" className="bg-gradient-to-r from-green-600 to-emerald-500 text-white font-semibold px-4 py-2 rounded-lg hover:opacity-90 text-sm">Emitir recibo →
             </Link>
           </nav>
         </div>
@@ -33,8 +32,7 @@ export default function HomePage() {
             Sem Word. Sem complicação. Escolha o modelo, preencha os dados e baixe um PDF profissional — aceito por clientes e empresas.
           </p>
           <div className="flex items-center justify-center gap-4 flex-wrap">
-            <Link href="/app" className="bg-gradient-to-r from-green-600 to-emerald-500 text-white font-bold px-8 py-4 rounded-xl hover:shadow-lg transition text-lg">
-              Emitir Meu Primeiro Recibo Grátis →
+            <Link href="/signup" className="bg-gradient-to-r from-green-600 to-emerald-500 text-white font-bold px-8 py-4 rounded-xl hover:shadow-lg transition text-lg">Emitir Meu Primeiro Recibo Grátis →
             </Link>
             <Link href="#pricing" className="text-slate-600 hover:text-green-600 font-medium px-4 py-4 text-lg">
               Ver planos
@@ -176,8 +174,8 @@ export default function HomePage() {
                     </li>
                   ))}
                 </ul>
-                <Link href="/app" className={`block text-center py-3 rounded-xl font-semibold transition ${plan.recommended ? 'bg-white text-green-600 hover:opacity-90' : 'bg-green-600 text-white hover:opacity-90'}`}>
-                  {plan.price === 0 ? 'Começar grátis →' : 'Assinar →'}
+                <Link href={plan.id === "free" ? "/signup" : plan.id === "individual" ? "/checkout?plan=individual" : "/checkout?plan=ilimitado"} className={`block text-center py-3 rounded-xl font-semibold transition ${plan.recommended ? 'bg-white text-green-600 hover:opacity-90' : 'bg-green-600 text-white hover:opacity-90'}`}>
+                  {plan.price === 0 ? "Começar grátis →" : "Assinar →"}
                 </Link>
               </div>
             ))}
@@ -187,8 +185,7 @@ export default function HomePage() {
         {/* Final CTA */}
         <section className="bg-gradient-to-br from-green-600 to-emerald-500 py-20 text-center">
           <h2 className="text-3xl font-bold text-white mb-4">Comece a emitir recibos profissionais agora</h2>
-          <Link href="/app" className="inline-block bg-white text-green-600 font-bold px-8 py-4 rounded-xl hover:opacity-90 text-lg mt-4">
-            Emitir Meu Primeiro Recibo Grátis →
+          <Link href="/signup" className="inline-block bg-white text-green-600 font-bold px-8 py-4 rounded-xl hover:opacity-90 text-lg mt-4">Emitir Meu Primeiro Recibo Grátis →
           </Link>
           <p className="text-green-100 mt-4 text-sm">Sem cadastro. Sem complicação. Leva 2 minutos.</p>
         </section>
