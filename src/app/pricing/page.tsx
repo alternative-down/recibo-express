@@ -10,26 +10,16 @@ const PLANS = [
     priceLabel: 'R$ 0',
     period: '',
     description: 'Para quem precisa de recibos pontuais.',
-    features: ['3 recibos por mês', 'Todos os modelos', 'Download em PDF', 'Sem cadastro obrigatório'],
+    features: ['1 recibo por mês', 'Todos os modelos', 'Download em PDF', 'Branding do Recibo Express', 'Sem cadastro obrigatório'],
   },
   {
-    id: 'individual',
-    name: 'Individual',
-    price: 19,
-    priceLabel: 'R$ 19',
+    id: 'pro',
+    name: 'Pro',
+    price: 9.9,
+    priceLabel: 'R$ 9,90',
     period: '/mês',
-    description: 'Para profissionais liberais que emitem vários recibos.',
-    features: ['Até 30 recibos por mês', 'Todos os modelos', 'Download em PDF', 'Histórico completo'],
-    recommended: false,
-  },
-  {
-    id: 'ilimitado',
-    name: 'Ilimitado',
-    price: 49,
-    priceLabel: 'R$ 49',
-    period: '/mês',
-    description: 'Para escritórios e autônomos que emitem muitos recibos.',
-    features: ['Recibos ilimitados', 'Histórico completo', 'Todos os modelos', 'Download em PDF', 'Prioridade no suporte', 'Modelos exclusivos'],
+    description: 'Para profissionais que emitem recibos com frequência.',
+    features: ['Recibos ilimitados', 'Todos os modelos', 'Download em PDF', 'Sem branding', 'Histórico completo', 'Prioridade no suporte'],
     recommended: true,
   },
 ];
@@ -54,7 +44,7 @@ export default function PricingPage() {
         <h1 className="text-4xl font-bold text-slate-900 mb-4">Planos simples, sem surpresa</h1>
         <p className="text-xl text-slate-600 mb-16">Cada recibo gera um PDF profissional. Comece grátis.</p>
 
-        <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
           {PLANS.map(plan => (
             <div key={plan.id} className={`relative bg-white rounded-2xl p-8 text-left border ${plan.recommended ? 'border-green-400 shadow-lg shadow-green-100' : 'border-green-100 shadow-sm'}`}>
               {plan.recommended && (
@@ -80,8 +70,8 @@ export default function PricingPage() {
                   Começar grátis →
                 </Link>
               ) : (
-                <Link href={`/checkout?plan=${plan.id}`} className={`block text-center font-semibold py-3 rounded-xl transition ${plan.recommended ? 'bg-gradient-to-r from-green-600 to-emerald-500 text-white hover:opacity-90' : 'bg-green-600 text-white hover:opacity-90'}`}>
-                  Assinar {plan.name} →
+                <Link href={`/checkout?plan=${plan.id}`} className="block text-center bg-gradient-to-r from-green-600 to-emerald-500 text-white font-semibold py-3 rounded-xl hover:opacity-90 transition">
+                  Assinar Pro →
                 </Link>
               )}
             </div>

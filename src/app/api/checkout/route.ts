@@ -11,8 +11,8 @@ const ASAAS_ENDPOINT = 'https://api.asaas.com/api/v3';
 type BillingType = 'PIX' | 'BOLETO' | 'CREDIT_CARD';
 
 const PLAN_PRICES: Record<string, number> = {
-  individual: 19,
-  ilimitado: 49,
+  pro: 9.9,
+  
 };
 
 function resolveBillingType(method?: string): BillingType {
@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
     if (!payload) return NextResponse.json({ error: 'Token inválido' }, { status: 401 });
 
     const { planId, paymentMethod } = await request.json();
-    if (!planId || !['individual', 'ilimitado'].includes(planId)) {
+    if (!planId || !['pro'].includes(planId)) {
       return NextResponse.json({ error: 'Plano inválido' }, { status: 400 });
     }
 
@@ -82,7 +82,7 @@ export async function POST(request: NextRequest) {
         nextDueDate: new Date().toISOString().split('T')[0],
         value: price,
         cycle: 'MONTHLY',
-        description: `Recibo Express ${planId === 'ilimitado' ? 'Ilimitado' : 'Individual'}`,
+        description: `Recibo Express Pro`,
         externalReference: user.id,
         notificationDisabled: false,
       }),
