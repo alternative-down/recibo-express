@@ -1,5 +1,5 @@
 export interface Plan {
-  id: 'free' | 'individual' | 'ilimitado';
+  id: 'free' | 'pro';
   name: string;
   price: number;
   receiptsPerMonth: number;
@@ -12,38 +12,26 @@ export const PLANS: Plan[] = [
     id: 'free',
     name: 'Grátis',
     price: 0,
-    receiptsPerMonth: 3,
+    receiptsPerMonth: 1,
     features: [
-      '3 recibos por mês',
+      '1 recibo por mês',
       'Todos os modelos',
       'Download em PDF',
-      'Sem cadastro obrigatório',
+      'Branding Alternative Down',
     ],
   },
   {
-    id: 'individual',
-    name: 'Individual',
-    price: 19,
-    receiptsPerMonth: 30,
-    features: [
-      'Até 30 recibos por mês',
-      'Todos os modelos',
-      'Download em PDF',
-      'Histórico completo',
-    ],
-  },
-  {
-    id: 'ilimitado',
-    name: 'Ilimitado',
-    price: 49,
+    id: 'pro',
+    name: 'Pro',
+    price: 9.9,
     receiptsPerMonth: Infinity,
     features: [
       'Recibos ilimitados',
-      'Histórico completo',
       'Todos os modelos',
       'Download em PDF',
+      'Sem branding',
+      'Histórico completo',
       'Prioridade no suporte',
-      'Modelos exclusivos',
     ],
     recommended: true,
   },
