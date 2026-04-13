@@ -2,6 +2,38 @@ import Link from "next/link";
 
 export const metadata = { title: "Preços - Recibo Express" };
 
+const PLANS = [
+  {
+    id: 'free',
+    name: 'Grátis',
+    price: 0,
+    priceLabel: 'R$ 0',
+    period: '',
+    description: 'Para quem precisa de recibos pontuais.',
+    features: ['3 recibos por mês', 'Todos os modelos', 'Download em PDF', 'Sem cadastro obrigatório'],
+  },
+  {
+    id: 'individual',
+    name: 'Individual',
+    price: 19,
+    priceLabel: 'R$ 19',
+    period: '/mês',
+    description: 'Para profissionais liberais que emitem vários recibos.',
+    features: ['Até 30 recibos por mês', 'Todos os modelos', 'Download em PDF', 'Histórico completo'],
+    recommended: false,
+  },
+  {
+    id: 'ilimitado',
+    name: 'Ilimitado',
+    price: 49,
+    priceLabel: 'R$ 49',
+    period: '/mês',
+    description: 'Para escritórios e autônomos que emitem muitos recibos.',
+    features: ['Recibos ilimitados', 'Histórico completo', 'Todos os modelos', 'Download em PDF', 'Prioridade no suporte', 'Modelos exclusivos'],
+    recommended: true,
+  },
+];
+
 export default function PricingPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-emerald-50">
@@ -12,7 +44,6 @@ export default function PricingPage() {
             <span className="font-bold text-slate-900 text-lg">Recibo Express</span>
           </Link>
           <nav className="flex items-center gap-4">
-            <Link href="/templates" className="text-slate-600 hover:text-green-600 text-sm font-medium">Templates</Link>
             <Link href="/login" className="text-slate-600 hover:text-green-600 text-sm font-medium">Entrar</Link>
             <Link href="/signup" className="bg-gradient-to-r from-green-600 to-emerald-500 text-white font-semibold px-4 py-2 rounded-lg hover:opacity-90 text-sm">Cadastrar</Link>
           </nav>
@@ -21,43 +52,43 @@ export default function PricingPage() {
 
       <main className="max-w-5xl mx-auto px-6 py-20 text-center">
         <h1 className="text-4xl font-bold text-slate-900 mb-4">Planos simples, sem surpresa</h1>
-        <p className="text-xl text-slate-600 mb-12">Cada recibo gera um PDF profissional. Comece grátis.</p>
+        <p className="text-xl text-slate-600 mb-16">Cada recibo gera um PDF profissional. Comece grátis.</p>
 
-        <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
-          <div className="bg-white rounded-2xl shadow-sm border border-green-100 p-8 text-left">
-            <h2 className="text-xl font-bold text-slate-900 mb-2">Basic</h2>
-            <p className="text-slate-500 mb-6">Para quem precisa de recibos pontuais.</p>
-            <div className="mb-6">
-              <span className="text-4xl font-bold text-slate-900">R$ 19</span>
-              <span className="text-slate-500">/recibo</span>
+        <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          {PLANS.map(plan => (
+            <div key={plan.id} className={`relative bg-white rounded-2xl p-8 text-left border ${plan.recommended ? 'border-green-400 shadow-lg shadow-green-100' : 'border-green-100 shadow-sm'}`}>
+              {plan.recommended && (
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-green-600 to-emerald-500 text-white text-xs font-bold px-4 py-1 rounded-full">
+                  Mais Popular
+                </div>
+              )}
+              <h2 className="text-xl font-bold text-slate-900 mb-1">{plan.name}</h2>
+              <p className="text-slate-500 text-sm mb-4">{plan.description}</p>
+              <div className="mb-6">
+                <span className="text-4xl font-bold text-slate-900">{plan.priceLabel}</span>
+                {plan.period && <span className="text-slate-500">{plan.period}</span>}
+              </div>
+              <ul className="space-y-2 mb-8">
+                {plan.features.map(f => (
+                  <li key={f} className="flex items-start gap-2 text-sm text-slate-600">
+                    <span className="text-green-600 mt-0.5">✅</span> {f}
+                  </li>
+                ))}
+              </ul>
+              {plan.id === 'free' ? (
+                <Link href="/app/generate" className="block text-center bg-slate-100 text-slate-700 font-semibold py-3 rounded-xl hover:bg-slate-200 transition">
+                  Começar grátis →
+                </Link>
+              ) : (
+                <Link href={`/checkout?plan=${plan.id}`} className={`block text-center font-semibold py-3 rounded-xl transition ${plan.recommended ? 'bg-gradient-to-r from-green-600 to-emerald-500 text-white hover:opacity-90' : 'bg-green-600 text-white hover:opacity-90'}`}>
+                  Assinar {plan.name} →
+                </Link>
+              )}
             </div>
-            <ul className="space-y-3 mb-8 text-sm text-slate-600">
-              {['Recibo de Serviço', 'Recibo de Aluguel', 'Recibo de Venda', 'PDF para download'].map(f => (
-                <li key={f} className="flex items-center gap-2">✅ {f}</li>
-              ))}
-            </ul>
-            <Link href="/templates" className="block text-center bg-green-600 text-white font-semibold py-3 rounded-xl hover:opacity-90">
-              Gerar recibo Basic →
-            </Link>
-          </div>
-
-          <div className="bg-gradient-to-br from-green-600 to-emerald-500 rounded-2xl shadow-lg p-8 text-left text-white">
-            <h2 className="text-xl font-bold mb-2">Pro</h2>
-            <p className="text-green-100 mb-6">Para profissionais liberais que emitem vários recibos.</p>
-            <div className="mb-6">
-              <span className="text-4xl font-bold">R$ 29</span>
-              <span className="text-green-200">/recibo</span>
-            </div>
-            <ul className="space-y-3 mb-8 text-sm text-green-50">
-              {['Todos os templates Basic', 'Recibo de Honorários', 'Prioridade no suporte', 'Histórico de recibos'].map(f => (
-                <li key={f} className="flex items-center gap-2">✅ {f}</li>
-              ))}
-            </ul>
-            <Link href="/templates" className="block text-center bg-white text-green-600 font-bold py-3 rounded-xl hover:opacity-90">
-              Gerar recibo Pro →
-            </Link>
-          </div>
+          ))}
         </div>
+
+        <p className="text-sm text-slate-500 mt-8">Cancele quando quiser. Sem compromisso.</p>
       </main>
     </div>
   );
