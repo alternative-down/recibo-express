@@ -4,32 +4,38 @@ import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
 const PLAN_LABELS: Record<string, string> = {
-  individual: 'Individual',
-  ilimitado: 'Ilimitado',
+  pro: 'Pro',
 };
 
 const PLAN_PRICES: Record<string, number> = {
-  individual: 19,
-  ilimitado: 49,
+  pro: 9.9,
 };
 
 type PaymentMethod = 'pix' | 'boleto' | 'credit_card';
 
 interface CheckoutResult {
-  subscriptionId: string;
-  subId: string;
-  pixQrCode: {
+  orderId: string;
+  paymentId: string;
+  paymentMethod: string;
+  billingType: string;
+  amount: number;
+  invoiceUrl: string | null;
+  pix?: {
     encodedImage: string | null;
     payload: string | null;
     expirationDate: string | null;
-  } | null;
-  billingType: string;
-  amount: number;
+  };
+  boleto?: {
+    bankSlipUrl: string | null;
+    invoiceUrl: string | null;
+    identificationField: string | null;
+    barCode: string | null;
+  };
 }
 
 function CheckoutContent() {
   const searchParams = useSearchParams();
-  const planId = searchParams.get('plan') || 'individual';
+  const planId = searchParams.get('plan') || 'pro';
   const [method, setMethod] = useState<PaymentMethod>('pix');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<CheckoutResult | null>(null);
@@ -56,12 +62,15 @@ function CheckoutContent() {
 
   if (!authenticated) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-green-50">
-        <div className="text-center bg-white rounded-2xl border border-green-200 p-8 max-w-sm">
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="text-center bg-white rounded-2xl border border-slate-200 p-8 max-w-sm">
           <h1 className="text-xl font-bold text-slate-900 mb-2">Login necessário</h1>
-          <p className="text-slate-600 text-sm mb-6">Você precisa estar logado para assinar um plano.</p>
-          <Link href="/login" className="block w-full bg-green-600 text-white font-semibold py-3 rounded-xl hover:bg-green-700 transition">
+          <p className="text-slate-600 text-sm mb-6">Você precisa estar logado para fazer o pagamento.</p>
+          <Link href="/login" className="block w-full py-3 text-center bg-green-600 text-white font-semibold rounded-xl hover:bg-green-700 transition">
             Fazer login
+          </Link>
+          <Link href="/signup" className="block mt-3 w-full py-3 text-center bg-slate-100 text-slate-700 font-semibold rounded-xl hover:bg-slate-200 transition">
+            Criar conta
           </Link>
         </div>
       </div>
@@ -90,16 +99,16 @@ function CheckoutContent() {
     }
   }
 
-  const price = PLAN_PRICES[planId] || 19;
-  const label = PLAN_LABELS[planId] || 'Individual';
+  const price = PLAN_PRICES[planId] || 9.9;
+  const label = PLAN_LABELS[planId] || 'Pro';
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-emerald-50">
+    <div className="min-h-screen bg-slate-50">
       <header className="bg-white border-b border-green-100">
         <div className="max-w-xl mx-auto px-6 py-4 flex items-center gap-4">
           <Link href="/pricing" className="text-slate-500 hover:text-slate-700 text-sm">← Voltar</Link>
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-600 to-emerald-500 flex items-center justify-center text-white text-sm font-bold">📄</div>
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-600 to-emerald-500 flex items-center justify-center text-white text-sm font-bold">R</div>
             <span className="font-bold text-slate-900">Recibo Express</span>
           </Link>
         </div>
@@ -107,21 +116,23 @@ function CheckoutContent() {
 
       <main className="max-w-xl mx-auto px-6 py-10">
         <h1 className="text-2xl font-bold text-slate-900 mb-2">Assinar plano {label}</h1>
-        <p className="text-slate-600 mb-8">R$ {price}/mês — cobrado mensalmente.</p>
+        <p className="text-slate-600 mb-8">R$ {price.toFixed(2).replace('.', ',')}/mês — cobrado uma única vez e renovado mensalmente.</p>
 
-        <div className="bg-white rounded-2xl border border-green-200 p-6 mb-6">
+        {/* Order summary */}
+        <div className="bg-white rounded-2xl border border-slate-200 p-6 mb-6">
           <div className="flex justify-between items-center">
             <div>
               <div className="font-semibold text-slate-900">Plano {label}</div>
               <div className="text-sm text-slate-500">Recibo Express</div>
             </div>
-            <div className="text-2xl font-bold text-slate-900">R$ {price}</div>
+            <div className="text-2xl font-bold text-slate-900">R$ {price.toFixed(2).replace('.', ',')}</div>
           </div>
         </div>
 
         {!result ? (
           <>
-            <div className="bg-white rounded-2xl border border-green-200 p-6 mb-6">
+            {/* Payment method */}
+            <div className="bg-white rounded-2xl border border-slate-200 p-6 mb-6">
               <h2 className="font-semibold text-slate-900 mb-4">Forma de pagamento</h2>
               <div className="space-y-3">
                 {[
@@ -150,23 +161,24 @@ function CheckoutContent() {
               disabled={loading}
               className="w-full bg-gradient-to-r from-green-600 to-emerald-500 text-white font-bold py-4 rounded-xl hover:opacity-90 transition disabled:opacity-50"
             >
-              {loading ? 'Gerando pagamento...' : `Pagar R$ ${price} com ${method === 'pix' ? 'PIX' : method === 'boleto' ? 'Boleto' : 'Cartão'}`}
+              {loading ? 'Gerando pagamento...' : `Pagar R$ ${price.toFixed(2).replace('.', ',')} com ${method === 'pix' ? 'PIX' : method === 'boleto' ? 'Boleto' : 'Cartão'}`}
             </button>
           </>
         ) : (
           <div className="space-y-6">
+            {/* Success state */}
             <div className="bg-green-50 border border-green-200 rounded-2xl p-6 text-center">
               <div className="text-4xl mb-3">✅</div>
               <h2 className="text-xl font-bold text-green-800 mb-2">Pagamento gerado!</h2>
               <p className="text-green-700 text-sm">Siga as instruções abaixo para finalizar.</p>
             </div>
 
-            {result.pixQrCode ? (
-              <div className="bg-white rounded-2xl border border-green-200 p-6 text-center">
-                <div className="text-sm text-slate-500 uppercase tracking-wider mb-4 font-semibold">Escaneie o QR Code PIX</div>
-                {result.pixQrCode.encodedImage ? (
+            {result.pix ? (
+              <div className="bg-white rounded-2xl border border-slate-200 p-6 text-center">
+                <div className="text-sm text-slate-500 uppercase tracking-wider mb-4 font-semibold">Escaneie o QR Code</div>
+                {result.pix.encodedImage ? (
                   <img
-                    src={`data:image/png;base64,${result.pixQrCode.encodedImage}`}
+                    src={`data:image/png;base64,${result.pix.encodedImage}`}
                     alt="PIX QR Code"
                     className="mx-auto w-52 h-52 border border-slate-200 rounded-xl"
                   />
@@ -178,13 +190,36 @@ function CheckoutContent() {
                 <div className="mt-4">
                   <div className="text-xs text-slate-500 mb-1">Código PIX (copie e cole):</div>
                   <div className="bg-slate-100 rounded-lg p-3 text-xs font-mono text-slate-700 break-all select-all">
-                    {result.pixQrCode.payload || 'Código não disponível'}
+                    {result.pix.payload || 'Código não disponível'}
                   </div>
                 </div>
-                {result.pixQrCode.expirationDate && (
-                  <p className="text-xs text-slate-500 mt-3">Expira em: {result.pixQrCode.expirationDate}</p>
+                {result.pix.expirationDate && (
+                  <p className="text-xs text-slate-500 mt-3">Expira em: {result.pix.expirationDate}</p>
                 )}
               </div>
+            ) : null}
+
+            {result.boleto ? (
+              <div className="bg-white rounded-2xl border border-slate-200 p-6 text-center">
+                <div className="text-4xl mb-3">📄</div>
+                <p className="text-slate-600 text-sm mb-4">Seu boleto foi gerado. Aprovação em até 2 dias úteis.</p>
+                {result.boleto.bankSlipUrl && (
+                  <a
+                    href={result.boleto.bankSlipUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block bg-green-600 text-white font-semibold px-6 py-3 rounded-xl hover:bg-green-700 transition"
+                  >
+                    Baixar Boleto
+                  </a>
+                )}
+              </div>
+            ) : null}
+
+            {result.invoiceUrl ? (
+              <a href={result.invoiceUrl} target="_blank" rel="noopener noreferrer" className="block text-center text-green-600 hover:underline text-sm">
+                Ver fatura no Asaas →
+              </a>
             ) : null}
 
             <div className="bg-green-50 border border-green-100 rounded-xl p-4 text-sm text-green-700">

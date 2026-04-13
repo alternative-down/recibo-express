@@ -17,8 +17,7 @@ export const PLANS: Plan[] = [
       '1 recibo por mês',
       'Todos os modelos',
       'Download em PDF',
-      'Branding do Recibo Express',
-      'Sem cadastro obrigatório',
+      'Branding Alternative Down',
     ],
   },
   {
