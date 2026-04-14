@@ -10,6 +10,24 @@ const geistSans = Geist({
 export const metadata: Metadata = {
   title: "Recibo Express — Gere recibos profissionais em segundos",
   description: "Gere recibos profissionais, detalhados e prontos para impressão em segundos. Para prestadores de serviço, locadores, profissionais liberais e muito mais.",
+  alternates: {
+    canonical: "https://recibo.alternativedown.com.br",
+  },
+  openGraph: {
+    title: "Recibo Express — Gere recibos profissionais em segundos",
+    description: "Gere recibos profissionais, detalhados e prontos para impressão em segundos.",
+    url: "https://recibo.alternativedown.com.br",
+    siteName: "Recibo Express",
+    locale: "pt_BR",
+    type: "website",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Recibo Express" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Recibo Express — Gere recibos profissionais em segundos",
+    description: "Gere recibos profissionais, detalhados e prontos para impressão em segundos.",
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({
