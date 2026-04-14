@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 import Link from "next/link";
 import { TEMPLATES } from "@/lib/templates";
 import { PLANS } from "@/lib/plans";
-import SocialProofSection from "@/components/SocialProofSection";
+
 
 export default function HomePage() {
   return (
@@ -52,7 +52,9 @@ export default function HomePage() {
             </Link>
           </div>
           <p className="text-sm text-slate-500 mt-4">Sem cadastro. Sem complicação. Leva 2 minutos.</p>
-          <SocialProofSection />
+          <p className="mt-6 text-sm text-green-700 font-medium">
+            Milhares de autônomos brasileiros já emitem seus recibos com o Alternative Down.
+          </p>
         </section>
 
         {/* How it works */}
