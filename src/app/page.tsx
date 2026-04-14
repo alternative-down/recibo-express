@@ -145,7 +145,7 @@ export default function HomePage() {
             <div className="space-y-6">
               {[
                 { q: 'O recibo é válido?', a: 'Sim. Um recibo com os dados das partes, valor, data e assinatura tem valor fiscal para fins de comprovação de pagamento entre pessoas físicas ou jurídicas.' },
-                { q: 'É gratuito?', a: 'Sim. Você pode emitir até 3 recibos por mês sem pagar nada. Acima disso, escolha entre o plano Pro (R$ 9,90/mês, recibos ilimitados).' },
+                { q: 'É gratuito?', a: 'Sim. Você pode emitir 1 recibo por mês sem pagar nada. Acima disso, assine o plano Pro por R$ 9,90/mês para recibos ilimitados, sem branding e com histórico completo.' },
                 { q: 'Preciso de CNPJ?', a: 'Não necessariamente. O recibo aceita CPF do prestador — perfeito para autônomos e freelancers.' },
                 { q: 'Como envio para o cliente?', a: 'Você baixa o PDF e envia por WhatsApp, e-mail ou qualquer meio que preferir.' },
                 { q: 'Qual a diferença entre recibo e Nota Fiscal?', a: 'O recibo é um comprovante de pagamento que você emite quando recebe dinheiro. A Nota Fiscal é um documento fiscal emitido para o governo. Para autônomos informais, o recibo costuma ser suficiente.' },
@@ -186,7 +186,7 @@ export default function HomePage() {
                     </li>
                   ))}
                 </ul>
-                <Link href={plan.id === "free" ? "/signup" : plan.id === "individual" ? "/checkout?plan=individual" : "/checkout?plan=ilimitado"} className={`block text-center py-3 rounded-xl font-semibold transition ${plan.recommended ? 'bg-white text-green-600 hover:opacity-90' : 'bg-green-600 text-white hover:opacity-90'}`}>
+                <Link href={plan.id === "free" ? "/signup" : "/checkout?plan=pro"} className={`block text-center py-3 rounded-xl font-semibold transition ${plan.recommended ? 'bg-white text-green-600 hover:opacity-90' : 'bg-green-600 text-white hover:opacity-90'}`}>
                   {plan.price === 0 ? "Começar grátis →" : "Assinar →"}
                 </Link>
               </div>
