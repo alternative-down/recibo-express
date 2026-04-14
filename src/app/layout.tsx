@@ -10,6 +10,9 @@ const geistSans = Geist({
 export const metadata: Metadata = {
   title: "Recibo Express — Gere recibos profissionais em segundos",
   description: "Gere recibos profissionais, detalhados e prontos para impressão em segundos. Para prestadores de serviço, locadores, profissionais liberais e muito mais.",
+  alternates: {
+    canonical: "https://recibo.alternativedown.com.br",
+  },
   openGraph: {
     title: "Recibo Express — Recibos profissionais em 2 minutos, grátis",
     description: "O autônomo brasileiro merece um recibo bonito, válido e profissional — sem Word, sem complicação.",
