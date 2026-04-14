@@ -1,7 +1,15 @@
 import Link from "next/link";
 import { PLANS } from "@/lib/plans";
 
-export const metadata = { title: "Preços - Recibo Express" };
+export const metadata = {
+  title: "Preços - Recibo Express",
+  description: "Planos simples para emitir recibos profissionais. Grátis até 3/mês, Pro R$ 9,90/mês ilimitado.",
+  openGraph: {
+    title: "Preços - Recibo Express",
+    description: "Planos simples para emitir recibos profissionais.",
+    type: "website",
+  },
+};
 
 export default function PricingPage() {
   return (

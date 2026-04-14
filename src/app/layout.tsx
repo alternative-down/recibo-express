@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
+import ClientToaster from "@/components/ClientToaster";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,6 +29,28 @@ export const metadata: Metadata = {
     description: "Recibo bonito, válido e profissional — sem Word, sem complicação.",
   },
   robots: { index: true, follow: true },
+  other: {
+    "application/ld+json": JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      name: "Recibo Express",
+      description: "Gere recibos profissionais, detalhados e prontos para impressão em segundos. Para prestadores de serviço, locadores, profissionais liberais.",
+      url: "https://recibo.alternativedown.com.br",
+      applicationCategory: "BusinessApplication",
+      operatingSystem: "Web",
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "BRL",
+        description: "Grátis — 1 recibo/mês sem cadastro",
+      },
+      provider: {
+        "@type": "Organization",
+        name: "Alternative Down",
+        url: "https://alternativedown.com.br",
+      },
+    }),
+  },
 };
 
 export default function RootLayout({
@@ -115,6 +138,7 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
         />
+        <ClientToaster />
       </body>
     </html>
   );

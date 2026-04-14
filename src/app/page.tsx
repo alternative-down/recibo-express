@@ -1,6 +1,19 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Recibo Profissional Grátis — Em 2 Minutos | Recibo Express",
+  description: "Gere recibos profissionais em PDF sem complicação. 3 recibos grátis por mês. Planos a partir de R$ 9,90/mês.",
+  openGraph: {
+    title: "Recibo Profissional Grátis — Em 2 Minutos",
+    description: "Gere recibos profissionais em PDF sem complicação.",
+    type: "website",
+  },
+};
+
 import Link from "next/link";
 import { TEMPLATES } from "@/lib/templates";
 import { PLANS } from "@/lib/plans";
+
 
 export default function HomePage() {
   return (
@@ -39,9 +52,8 @@ export default function HomePage() {
             </Link>
           </div>
           <p className="text-sm text-slate-500 mt-4">Sem cadastro. Sem complicação. Leva 2 minutos.</p>
-          {/* Social proof */}
           <p className="mt-6 text-sm text-green-700 font-medium">
-            Milhares de autônomos já emitiram seus recibos com o Alternative Down.
+            Milhares de autônomos brasileiros já emitem seus recibos com o Alternative Down.
           </p>
         </section>
 
