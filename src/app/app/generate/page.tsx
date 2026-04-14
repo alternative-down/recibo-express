@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { TEMPLATES, getTemplateById } from '@/lib/templates';
 import { renderReceipt } from '@/lib/templates';
+import { toast } from 'sonner';
 
 function GenerateForm() {
   const params = useSearchParams();
@@ -27,7 +28,7 @@ function GenerateForm() {
   const handleGenerate = async () => {
     const allFilled = template.fields.every(f => formData[f.key]?.trim());
     if (!allFilled) {
-      alert('Preencha todos os campos antes de gerar.');
+      toast.error('Preencha todos os campos antes de gerar.');
       return;
     }
 
